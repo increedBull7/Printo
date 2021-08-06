@@ -3,5 +3,8 @@
     <string name="hotspot">Hotspot</string>
     <string name="server">Server</string>
     <string name="appName">Printo</string>
+    <string name="textview">show qr and ip here</string>
+    <string name="btn_text">start server</string>
+    <string name="title_activity_server">Server</string>
 
 </resources>
