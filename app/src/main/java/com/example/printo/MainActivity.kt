@@ -5,12 +5,16 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 
+//https://www.freepik.com/vectors/business' Business vector created by catalyststuff - www.freepik.com
+
+
 class MainActivity : AppCompatActivity() {
     lateinit var btn : Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         btn = findViewById<Button>(R.id.button)
+
         btn.setOnClickListener()
         {
             val intent = Intent(this,ServerActivity::class.java)

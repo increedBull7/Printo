@@ -16,7 +16,7 @@
     </style>
     <style name="Theme.Printo.NoActionBar">
         <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+    w    <item name="windowNoTitle">true</item>
     </style>
     <style name="Theme.Printo.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="Theme.Printo.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
