@@ -27,8 +27,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         btn = findViewById(R.id.button)
         switch = findViewById(R.id.switch_one)
-        if(isApOn())
-            switch.isChecked = true
+        switch.isChecked = isApOn()
+        btn.isEnabled = isApOn()
+
         switch.setOnCheckedChangeListener()
         {
             switch,isChecked->
