@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/hotspot"
+        android:id="@+id/switch_one"
         android:layout_width="123dp"
         android:layout_height="62dp"
         android:layout_marginTop="32dp"
@@ -34,10 +34,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="56dp"
+        android:enabled="false"
         android:text="@string/btn_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/hotspot" />
+        app:layout_constraintTop_toBottomOf="@+id/switch_one" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
