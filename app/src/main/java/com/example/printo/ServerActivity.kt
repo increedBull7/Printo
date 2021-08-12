@@ -10,19 +10,34 @@ import android.widget.TextView
 import android.widget.Toast
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.BarcodeEncoder
-import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
 import java.io.OutputStream
+import java.io.File
 import java.net.NetworkInterface
 
 class ServerActivity : AppCompatActivity()
 {
+
     private lateinit var serverInt : Intent
     private lateinit var qrCodeImage: ImageView
     private lateinit var textMsg : TextView
 
-    private val PATH = Environment.getExternalStorageDirectory().toString() +"/.printo"
+    //great suggestion bro @atul
+
+    lateinit var PATH : String
+    lateinit var PATH_FOR_DATA : String
+
+        companion object
+        {
+            @JvmStatic
+            lateinit var ins : ServerActivity
+            @JvmName("getIns1")
+            fun getIns() : ServerActivity
+            {
+                return ins
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?)
         {
@@ -30,13 +45,16 @@ class ServerActivity : AppCompatActivity()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.server_screen)
         textMsg = findViewById(R.id.textView)
+        ins = this
+        PATH = this.externalCacheDir!!.absolutePath.toString()
+        PATH_FOR_DATA  = PATH.removeSuffix("/Android/data/com.example.printo/cache")
         writeResource()
         createDir()
         serverInt = Intent(this,ServerService::class.java)
         startService(serverInt)
         qrCode()
         }
-
+    //routine for generating qr code
     @SuppressLint("SetTextI18n")
     private fun qrCode()
         {
@@ -58,6 +76,7 @@ class ServerActivity : AppCompatActivity()
             }
         }
 
+    //routine for writing assets to local folder
     private fun writeResource()
     {
         val path = "clientSide"
@@ -73,7 +92,7 @@ class ServerActivity : AppCompatActivity()
             }
             else
             {
-                val filepath = PATH + path
+                val filepath = "$PATH/$path"
                 val dir = File(filepath)
                 if (!dir.exists() && !path.startsWith("images")&&!path.startsWith("sounds")&&!path.startsWith("webkit"))
                     if(!dir.mkdir()) { }
@@ -83,6 +102,7 @@ class ServerActivity : AppCompatActivity()
                         ""
                     else
                         "$path/"
+
                     if(!path.startsWith("images") && !path.startsWith("sounds") && !path.startsWith("webkit"))
                         copy(p + item)
                 }
@@ -90,6 +110,8 @@ class ServerActivity : AppCompatActivity()
         }
         catch (e : java.lang.Exception) {  }
     }
+
+    //routine module of writeResource()
     private fun copy(filename: String)
     {
         val assetManager = this.assets
@@ -100,9 +122,9 @@ class ServerActivity : AppCompatActivity()
         {
             inputStream = assetManager.open(filename)
             newFileName = if (filename.endsWith(".jpg"))
-                PATH + filename.substring(0,filename.length - 4)
+                PATH + "/" + filename.substring(0,filename.length - 4)
             else
-                PATH + filename
+                "$PATH/$filename"
             outputStream = FileOutputStream(newFileName)
             val buf = ByteArray(1024)
             var read : Int
@@ -120,12 +142,16 @@ class ServerActivity : AppCompatActivity()
         }
         catch (e : java.lang.Exception){  }
     }
+
+    //createDir where received file will store
     private fun createDir()
     {
-        val dir = File(Environment.getExternalStorageDirectory().toString()+"/Printo")
+        val dir = File("$PATH_FOR_DATA/Printo")
         if(!dir.exists())
             dir.mkdir()
     }
+
+    //getting AP ip address
     private fun getIp() : String {
         var ip = ""
         try {
@@ -145,6 +171,8 @@ class ServerActivity : AppCompatActivity()
         catch (e : Exception) { }
         return ip
     }
+
+    //handle back key press event
     override fun onBackPressed()
     {
         super.onBackPressed()
