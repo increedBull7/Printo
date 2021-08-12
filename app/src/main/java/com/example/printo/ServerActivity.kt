@@ -159,7 +159,8 @@ class ServerActivity : AppCompatActivity()
             while (enumNet.hasMoreElements()) {
                 val networkInterface = enumNet.nextElement()
                 val enumInet = networkInterface.inetAddresses
-                while (enumInet.hasMoreElements()) {
+                while (enumInet.hasMoreElements())
+                {
                     val inetAddress = enumInet.nextElement()
                     if (inetAddress.isSiteLocalAddress && (networkInterface.name.lowercase()
                             .contains("wlan")) || networkInterface.name.lowercase().contains("ap")
@@ -172,6 +173,11 @@ class ServerActivity : AppCompatActivity()
         return ip
     }
 
+    override fun onStart()
+    {
+        super.onStart()
+
+    }
     //handle back key press event
     override fun onBackPressed()
     {

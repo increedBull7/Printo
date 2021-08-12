@@ -1,7 +1,6 @@
 package com.example.printo
 
-import android.content.Context
-import android.content.Intent
+import android.content.*
 import android.content.pm.PackageManager
 import android.net.wifi.WifiManager
 import androidx.appcompat.app.AppCompatActivity
@@ -11,10 +10,6 @@ import android.widget.Toast
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import java.lang.Exception
-import android.content.ComponentName
-
-
 
 
 //https://www.freepik.com/vectors/business' Business vector created by catalyststuff - www.freepik.com
@@ -30,34 +25,11 @@ class MainActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-
         serverButton = findViewById(R.id.button)
         switch = findViewById(R.id.switch_one)
-
-        switch.isChecked = isApOn()
-        serverButton.isEnabled = isApOn()
-
-
-        switch.setOnCheckedChangeListener()
+        switch.setOnClickListener()
         {
-            switch,isChecked->
-            run {
-                if(isChecked)
-                {
-                    if (isApOn())
-                        switch.isChecked = true
-                    else
-                    {
-                        openHotspotSetting()
-                    }
-                }
-                else
-                {
-                    openHotspotSetting()
-                }
-                serverButton.isEnabled = isApOn()
-            }
+            openHotspotSetting()
         }
 
         // checking for required permission
@@ -109,23 +81,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
-    //routine for detecting hotspot is on
-    private fun isApOn() : Boolean
-    {
-        val wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
-        try
-        {
-            val method = wifiManager.javaClass.getDeclaredMethod("isWifiApEnabled")
-            method.isAccessible = true
-            return method.invoke(wifiManager) as Boolean
-        }
-        catch (e : Exception) { }
-        return false
-    }
-
     //this opens up the tethering settings
-    private fun openHotspotSetting(){
+    private fun openHotspotSetting()
+    {
         val intent = Intent(Intent.ACTION_MAIN, null)
         intent.addCategory(Intent.CATEGORY_LAUNCHER)
         val cn = ComponentName(
@@ -136,6 +94,44 @@ class MainActivity : AppCompatActivity() {
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(intent)
     }
+
+    //register broadcast receiver when activity started
+    override fun onStart()
+    {
+        super.onStart()
+        val iFilter = IntentFilter("android.net.wifi.WIFI_AP_STATE_CHANGED")
+        registerReceiver(mRec,iFilter)
+    }
+
+    //unregister broadcast receiver when activity no longer running
+    override fun onStop()
+    {
+        super.onStop()
+        unregisterReceiver(mRec)
+    }
+
+    //routine code for coordinating with btn and wifi event
+    private val mRec : BroadcastReceiver = object : BroadcastReceiver()
+        {
+            override fun onReceive(context : Context?, intent : Intent?)
+            {
+                val ac = intent?.action as String
+                if("android.net.wifi.WIFI_AP_STATE_CHANGED" == ac)
+                {
+                    val state = intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE,0)
+                    if(state == 13)
+                    {
+                        switch.isChecked = true
+                        serverButton.isEnabled = true
+                    }
+                    else
+                    {
+                        switch.isChecked = false
+                        serverButton.isEnabled = false
+                    }
+                }
+            }
+        }
 }
 
 
