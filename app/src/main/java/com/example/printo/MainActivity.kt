@@ -35,8 +35,10 @@ class MainActivity : AppCompatActivity() {
         serverButton = findViewById(R.id.button)
         switch = findViewById(R.id.switch_one)
 
-        if(isApOn())
-            switch.isChecked = true
+        switch.isChecked = isApOn()
+        serverButton.isEnabled = isApOn()
+
+
         switch.setOnCheckedChangeListener()
         {
             switch,isChecked->

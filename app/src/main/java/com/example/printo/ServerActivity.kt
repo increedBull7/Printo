@@ -1,17 +1,20 @@
 package com.example.printo
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.BarcodeEncoder
 import java.io.FileOutputStream
 import java.io.InputStream
 import java.io.OutputStream
-import java.io.File as File
+import java.io.File
+import java.net.NetworkInterface
 
 class ServerActivity : AppCompatActivity()
 {
@@ -20,6 +23,8 @@ class ServerActivity : AppCompatActivity()
     private lateinit var qrCodeImage: ImageView
 
     //!!getExternalStorageDirectory() seems to be deprecated!!
+    private lateinit var textMsg : TextView
+
     private val PATH = Environment.getExternalStorageDirectory().toString() +"/.printo"
 
     //val PATH = File(this.externalCacheDir!!.absolutePath.toString(), "/.printo")
@@ -29,6 +34,7 @@ class ServerActivity : AppCompatActivity()
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.server_screen)
+        textMsg = findViewById(R.id.textView)
         writeResource()
         createDir()
         serverInt = Intent(this,ServerService::class.java)
@@ -36,14 +42,15 @@ class ServerActivity : AppCompatActivity()
         qrCode()
         }
 
+    @SuppressLint("SetTextI18n")
     private fun qrCode()
         {
             //this is qr code
             qrCodeImage = findViewById(R.id.imgbarcode)
-
+            textMsg.text = "OR visit : http://${getIp()}:5050 on your browser!"
             try {
                 //place your text here @ text
-                val text = "Badhiya app banra hai bawa"
+                val text = getIp()
                 val qrCode  = BarcodeEncoder()
                 val imgCode = qrCode.encodeBitmap(text, BarcodeFormat.QR_CODE,
                     500, 500)
@@ -86,7 +93,7 @@ class ServerActivity : AppCompatActivity()
                 }
             }
         }
-        catch (e : java.lang.Exception) { Toast.makeText(this,e.toString(), Toast.LENGTH_LONG).show() }
+        catch (e : java.lang.Exception) {  }
     }
     private fun copy(filename: String)
     {
@@ -116,7 +123,7 @@ class ServerActivity : AppCompatActivity()
             outputStream.close()
 
         }
-        catch (e : java.lang.Exception){ Toast.makeText(this,e.toString()+"sec", Toast.LENGTH_LONG).show() }
+        catch (e : java.lang.Exception){  }
     }
     private fun createDir()
     {
@@ -126,6 +133,25 @@ class ServerActivity : AppCompatActivity()
 
         if(!dir.exists())
             dir.mkdir()
+    }
+    private fun getIp() : String {
+        var ip = ""
+        try {
+            val enumNet = NetworkInterface.getNetworkInterfaces()
+            while (enumNet.hasMoreElements()) {
+                val networkInterface = enumNet.nextElement()
+                val enumInet = networkInterface.inetAddresses
+                while (enumInet.hasMoreElements()) {
+                    val inetAddress = enumInet.nextElement()
+                    if (inetAddress.isSiteLocalAddress && (networkInterface.name.lowercase()
+                            .contains("wlan")) || networkInterface.name.lowercase().contains("ap")
+                    )
+                        ip = inetAddress.hostAddress as String
+                }
+            }
+        }
+        catch (e : Exception) { }
+        return ip
     }
     override fun onBackPressed()
     {
