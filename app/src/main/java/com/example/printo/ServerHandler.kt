@@ -1,6 +1,7 @@
 package com.example.printo
 import android.os.Build
 import android.os.Environment
+import android.util.Log
 import androidx.annotation.RequiresApi
 import java.io.*
 import java.net.*
@@ -10,16 +11,13 @@ import java.io.FileOutputStream as FileOutputStream1
 
 class ServerHandler(private val socket : Socket) : Runnable
 {
+    private  var PATH :String = ServerActivity.getIns().PATH
+    private  var PATH_FOR_DATA = ServerActivity.getIns().PATH_FOR_DATA
 
-    //val dir = File(this.externalCacheDir!!.absolutePath.toString(), "//Printo")
-
-    private val PATH = Environment.getExternalStorageDirectory().toString()
-    //Deprecated function getExternalStorageDirectory()
-
-    
     @RequiresApi(Build.VERSION_CODES.O)
     override fun run() {
         try {
+
             val inputStream = socket.getInputStream()
             val outputStream = socket.getOutputStream()
             val bReader = BufferedReader(InputStreamReader(inputStream))
@@ -42,7 +40,7 @@ class ServerHandler(private val socket : Socket) : Runnable
             if (method == "POST") {
                 val size = req[3].split(" ")[1].toInt()
                 val fileBuilder = StringBuilder()
-                val file = File("$PATH/Printo$url")
+                val file = File("$PATH_FOR_DATA/Printo$url")
                 val fileOutput = FileOutputStream1(file)
                 var i = 0
                 while (true)
@@ -69,7 +67,7 @@ class ServerHandler(private val socket : Socket) : Runnable
             inputStream.close()
             socket.close()
         }
-        catch (e : Exception) { }
+        catch (e : Exception) { Log.w("REST",e.toString()) }
     }
     private fun sendFile(outputStream: OutputStream,type : String,file : String)
     {
@@ -78,7 +76,7 @@ class ServerHandler(private val socket : Socket) : Runnable
             outputStream.write("HTTP/1.1 200 OK\r\n".toByteArray())
             outputStream.write("Content-Type:$type\r\n".toByteArray())
             outputStream.write("\r\n\r\n".toByteArray())
-            val fileInput = FileInputStream("$PATH/.printoclientSide$file")
+            val fileInput = FileInputStream("$PATH/clientSide$file")
             var read: Int
             while (true) {
                 read = fileInput.read()
@@ -87,7 +85,7 @@ class ServerHandler(private val socket : Socket) : Runnable
                 outputStream.write(read)
             }
         }
-        catch (e : Exception) { }
+        catch (e : Exception) { Log.w("REST",e.toString()) }
         return
     }
 }
