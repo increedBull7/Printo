@@ -26,7 +26,7 @@ class ServerActivity : AppCompatActivity()
     //great suggestion bro @atul
 
     lateinit var PATH : String
-    lateinit var PATH_FOR_DATA : String
+     var PATH_FOR_DATA : String = "/sdcard"
 
         companion object
         {
@@ -47,7 +47,7 @@ class ServerActivity : AppCompatActivity()
         textMsg = findViewById(R.id.textView)
         ins = this
         PATH = this.externalCacheDir!!.absolutePath.toString()
-        PATH_FOR_DATA  = PATH.removeSuffix("/Android/data/com.example.printo/cache")
+        //PATH_FOR_DATA  = PATH.removeSuffix("/Android/data/com.example.printo/cache")
         writeResource()
         createDir()
         serverInt = Intent(this,ServerService::class.java)

@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity() {
         serverButton.setOnClickListener()
         {
            val read = checkPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE,READ)
-           val write = checkPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE,WRITE)
+           val write = checkPermission(android.Manifest.permission.MANAGE_EXTERNAL_STORAGE,WRITE)
            if(read && write)
            {
                val intent = Intent(this,ServerActivity::class.java)
