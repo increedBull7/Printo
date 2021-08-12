@@ -27,8 +27,8 @@ function main(blob)
 	
 	xhr.upload.addEventListener("progress",event=>
 	{
-		let precent = (event.loaded/event.total)*100
-		pro.value = precent
+		let percent = (event.loaded/event.total)*100
+		pro.value = percent
 	})
 	
 	xhr.upload.addEventListener("loadend",event=>

@@ -12,21 +12,29 @@ import androidx.appcompat.widget.SwitchCompat
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import java.lang.Exception
+import android.content.ComponentName
+
+
+
 
 //https://www.freepik.com/vectors/business' Business vector created by catalyststuff - www.freepik.com
 
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var btn : Button
+    private lateinit var serverButton : Button
     private lateinit var switch : SwitchCompat
     private val READ = 100
     private val WRITE = 101
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        btn = findViewById(R.id.button)
+
+
+        serverButton = findViewById(R.id.button)
         switch = findViewById(R.id.switch_one)
+
         if(isApOn())
             switch.isChecked = true
         switch.setOnCheckedChangeListener()
@@ -39,20 +47,19 @@ class MainActivity : AppCompatActivity() {
                         switch.isChecked = true
                     else
                     {
-                        //yha per hotspot on kerne ke code pelo
-                        switch.isChecked = true
+                        openHotspotSetting()
                     }
                 }
                 else
                 {
-
-                //yha per hotspot off kerne ke code pele
+                    openHotspotSetting()
                 }
-                btn.isEnabled = isApOn()
+                serverButton.isEnabled = isApOn()
             }
         }
+
         // checking for required permission
-        btn.setOnClickListener()
+        serverButton.setOnClickListener()
         {
            val read = checkPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE,READ)
            val write = checkPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE,WRITE)
@@ -63,6 +70,8 @@ class MainActivity : AppCompatActivity() {
            }
         }
     }
+
+
     //code related to above onClick
     private fun checkPermission(permission:String ,requestCode:Int) :Boolean
     {
@@ -97,6 +106,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+
     //routine for detecting hotspot is on
     private fun isApOn() : Boolean
     {
@@ -109,6 +120,19 @@ class MainActivity : AppCompatActivity() {
         }
         catch (e : Exception) { }
         return false
+    }
+
+    //this opens up the tethering settings
+    private fun openHotspotSetting(){
+        val intent = Intent(Intent.ACTION_MAIN, null)
+        intent.addCategory(Intent.CATEGORY_LAUNCHER)
+        val cn = ComponentName(
+            "com.android.settings",
+            "com.android.settings.TetherSettings"
+        )
+        intent.component = cn
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intent)
     }
 }
 

@@ -8,16 +8,21 @@ import android.widget.ImageView
 import android.widget.Toast
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.BarcodeEncoder
-import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
 import java.io.OutputStream
+import java.io.File as File
 
 class ServerActivity : AppCompatActivity()
 {
+
     private lateinit var serverInt : Intent
     private lateinit var qrCodeImage: ImageView
+
+    //!!getExternalStorageDirectory() seems to be deprecated!!
     private val PATH = Environment.getExternalStorageDirectory().toString() +"/.printo"
+
+    //val PATH = File(this.externalCacheDir!!.absolutePath.toString(), "/.printo")
 
     override fun onCreate(savedInstanceState: Bundle?)
         {
@@ -115,7 +120,10 @@ class ServerActivity : AppCompatActivity()
     }
     private fun createDir()
     {
-        val dir = File(Environment.getExternalStorageDirectory().toString()+"/Printo")
+        //val dir = File(Environment.getExternalStorageDirectory().toString()+"/Printo")
+        //Changed this due to deprecation
+        val dir = File(this.externalCacheDir!!.absolutePath.toString(), "//Printo")
+
         if(!dir.exists())
             dir.mkdir()
     }

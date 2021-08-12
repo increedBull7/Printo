@@ -7,9 +7,16 @@ import java.net.*
 import java.util.*
 import java.io.FileOutputStream as FileOutputStream1
 
+
 class ServerHandler(private val socket : Socket) : Runnable
 {
+
+    //val dir = File(this.externalCacheDir!!.absolutePath.toString(), "//Printo")
+
     private val PATH = Environment.getExternalStorageDirectory().toString()
+    //Deprecated function getExternalStorageDirectory()
+
+    
     @RequiresApi(Build.VERSION_CODES.O)
     override fun run() {
         try {
@@ -28,9 +35,9 @@ class ServerHandler(private val socket : Socket) : Runnable
 
             val httpMsg: String = sb.toString()
             val req = httpMsg.split("\r\n")
-            val firtline = req[0].split(" ")
-            val method = firtline[0]
-            val url = firtline[1]
+            val firstline = req[0].split(" ")
+            val method = firstline[0]
+            val url = firstline[1]
 
             if (method == "POST") {
                 val size = req[3].split(" ")[1].toInt()
