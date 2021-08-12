@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat
 
 
 //https://www.freepik.com/vectors/business' Business vector created by catalyststuff - www.freepik.com
+//<uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
 
 
 class MainActivity : AppCompatActivity() {
@@ -37,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         {
            val read = checkPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE,READ)
            val write = checkPermission(android.Manifest.permission.MANAGE_EXTERNAL_STORAGE,WRITE)
-           if(read && write)
+           if(read)
            {
                val intent = Intent(this,ServerActivity::class.java)
                startActivity(intent)
