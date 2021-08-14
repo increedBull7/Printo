@@ -13,7 +13,8 @@ import androidx.core.content.ContextCompat
 
 
 //https://www.freepik.com/vectors/business' Business vector created by catalyststuff - www.freepik.com
-//<uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+//parent="Theme.MaterialComponents.DayNight.DarkActionBar"
+//parent="Theme.AppCompat.Light.NoActionBar
 
 
 class MainActivity : AppCompatActivity() {
@@ -23,6 +24,7 @@ class MainActivity : AppCompatActivity() {
     private val WRITE = 101
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
