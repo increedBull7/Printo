@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Environment
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -26,7 +25,7 @@ class ServerActivity : AppCompatActivity()
     //great suggestion bro @atul
 
     lateinit var PATH : String
-     var PATH_FOR_DATA : String = "/sdcard"
+    lateinit var PATH_FOR_DATA : String
 
         companion object
         {
@@ -47,13 +46,14 @@ class ServerActivity : AppCompatActivity()
         textMsg = findViewById(R.id.textView)
         ins = this
         PATH = this.externalCacheDir!!.absolutePath.toString()
-        //PATH_FOR_DATA  = PATH.removeSuffix("/Android/data/com.example.printo/cache")
+        PATH_FOR_DATA  = PATH.removeSuffix("/Android/data/com.example.printo/cache")
         writeResource()
         createDir()
         serverInt = Intent(this,ServerService::class.java)
         startService(serverInt)
         qrCode()
         }
+
     //routine for generating qr code
     @SuppressLint("SetTextI18n")
     private fun qrCode()
@@ -173,11 +173,6 @@ class ServerActivity : AppCompatActivity()
         return ip
     }
 
-    override fun onStart()
-    {
-        super.onStart()
-
-    }
     //handle back key press event
     override fun onBackPressed()
     {
