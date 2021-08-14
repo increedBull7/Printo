@@ -3,16 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:fitsSystemWindows="true"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
     <TextView
         android:id="@+id/textView_one"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="153dp"
+        android:layout_height="85dp"
         android:layout_marginTop="56dp"
+        android:fontFamily="@font/aladin"
         android:text="@string/app_name"
-        android:textSize="24sp"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="60sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,12 +24,16 @@
 
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/switch_one"
-        android:layout_width="123dp"
+        android:layout_width="149dp"
         android:layout_height="62dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="72dp"
+        android:fontFamily="@font/aladin"
         android:minHeight="48dp"
         android:text="@string/hotspot"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="28sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_one" />
 
@@ -36,9 +44,24 @@
         android:layout_marginTop="56dp"
         android:enabled="false"
         android:text="@string/btn_text"
+        android:textColor="#fff"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/switch_one" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="268dp"
+        android:text="@string/makers"
+        android:textColor="#fff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button"
+        app:layout_constraintVertical_bias="0.753" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

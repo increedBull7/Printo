@@ -23,7 +23,7 @@ class Server
             }
         }
         isStart = true
-        serverThread.isDaemon = true
+        serverThread.priority = Thread.MAX_PRIORITY
         serverThread.start()
     }
     fun stop()

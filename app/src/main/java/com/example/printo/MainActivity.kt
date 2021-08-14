@@ -24,6 +24,8 @@ import androidx.fragment.app.DialogFragment
 
 
 //https://www.freepik.com/vectors/business' Business vector created by catalyststuff - www.freepik.com
+//parent="Theme.MaterialComponents.DayNight.DarkActionBar"
+//parent="Theme.AppCompat.Light.NoActionBar
 
 
 class MainActivity : AppCompatActivity() {
@@ -34,6 +36,7 @@ class MainActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreate(savedInstanceState: Bundle?) {
+
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
