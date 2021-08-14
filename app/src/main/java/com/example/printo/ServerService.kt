@@ -11,7 +11,7 @@ class ServerService : Service()
     {
         TODO("Return the communication channel to the service.")
     }
-
+    //starting server thread form service
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int
     {
         try
@@ -22,7 +22,7 @@ class ServerService : Service()
         catch (e : Exception) { }
         return super.onStartCommand(intent, flags, startId)
     }
-
+    //stop server thread when service destroyed
     override fun onDestroy()
     {
         super.onDestroy()
