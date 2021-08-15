@@ -1,5 +1,6 @@
 package com.example.printo
 
+import android.util.Log
 import java.net.ServerSocket
 import kotlin.jvm.Volatile as Volatile1
 
@@ -12,15 +13,14 @@ class Server
 
     fun start()
     {
-        server = ServerSocket(PORT)
         serverThread = Thread {
+        server = ServerSocket(PORT)
             try
             {
                 while (isStart)
                     Thread(ServerHandler(server.accept())).start()
 
-            } catch (e: Exception) {
-            }
+            } catch (e: Exception) { Log.w("fThread",e.toString())}
         }
         isStart = true
         serverThread.priority = Thread.MAX_PRIORITY
@@ -33,6 +33,6 @@ class Server
             isStart = false
             server.close()
         }
-        catch (e : Exception){}
+        catch (e : Exception) { Log.w("step",e.toString()) }
     }
 }

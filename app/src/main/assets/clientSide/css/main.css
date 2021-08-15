@@ -1,0 +1,88 @@
+*
+{
+	padding: 0;
+	margin: 0;
+}
+
+.pro
+{
+	transition: 200ms;
+}
+
+.file
+{
+	display: none;
+}
+
+.container
+{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	flex-direction: column;
+}
+
+.navbar
+{
+	position: fixed;
+	top: 0;
+	display: flex;
+	align-items: center	;
+	margin-top: 20px;
+}
+.navbar h1
+{
+	color: white;
+	font-family: monospace;
+	margin-left: 5px;
+}
+.progress
+{
+	margin-top: 20px;
+	height: 28px;
+	width: 80%;
+	backdrop-filter: blur(2px);
+	border-radius: 14px;
+	display: flex;
+	align-items: center;
+	background: rgba(255, 255, 255, 0.5);
+}
+.inner
+{
+	height: 18px;
+	margin:0 5px 0 5px;
+	width: 0%;
+	transition: 100ms;
+	border-radius: 9px;
+	background: linear-gradient(to right,rgb(6,65,115,3),rgb(0,144,198,3))
+}
+.footer
+{
+	position: fixed;
+	bottom: 12px;
+	border-radius: 5px;
+	padding: 5px 10px 5px 10px;
+	background: rgba(255, 255, 255, 0.2);
+	backdrop-filter: blur(2px);
+	color: #fff;
+	font-family: monospace;
+}
+.folder
+{
+	background: rgba(255, 255, 255, 0.1);
+	height: 50px;
+	width: 50px;
+	padding: 20px;
+	border-radius: 50%;
+	backdrop-filter: blur(2px);
+}
+body
+{
+	touch-action: none;
+	height: 100vh;
+	background: url("../images/background.svg");
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
