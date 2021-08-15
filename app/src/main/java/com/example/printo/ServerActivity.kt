@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -47,7 +48,7 @@ class ServerActivity : AppCompatActivity()
         ins = this
         PATH = this.externalCacheDir!!.absolutePath.toString()
         PATH_FOR_DATA  = PATH.removeSuffix("/Android/data/com.example.printo/cache")
-        writeResource()
+        extractR()
         createDir()
         serverInt = Intent(this,ServerService::class.java)
         startService(serverInt)
@@ -75,11 +76,21 @@ class ServerActivity : AppCompatActivity()
                 e.printStackTrace()
             }
         }
-
-    //routine for writing assets to local folder
-    private fun writeResource()
+    //extract resource
+    private fun extractR()
     {
-        val path = "clientSide"
+        try
+        {
+            writeResource("clientSide")
+            writeResource("clientSide/audio")
+            writeResource("clientSide/css")
+            writeResource("clientSide/images")
+            writeResource("clientSide/js")
+        }catch (e : java.lang.Exception) { }
+    }
+    //routine for writing assets to local folder
+    private fun writeResource(path: String)
+    {
         val assetManager = this.assets
         lateinit var assetsList : Array<String>
         try
@@ -98,6 +109,7 @@ class ServerActivity : AppCompatActivity()
                     if(!dir.mkdir()) { }
                 for (item in assetsList)
                 {
+                    Log.w("item",item)
                     val p : String = if(path == "")
                         ""
                     else

@@ -1,9 +1,12 @@
 package com.example.printo
+import android.annotation.SuppressLint
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import java.io.*
 import java.net.*
+import java.nio.file.Files
+import java.nio.file.Paths
 import java.util.*
 import kotlin.math.abs
 import java.io.FileOutputStream as FileOutputStream1
@@ -71,14 +74,16 @@ class ServerHandler(private val socket : Socket) : Runnable
                 }
                 fileOutput.flush()
                 fileOutput.close()
+
             }
+
             //code for server response to GET http method
             else if(method == "GET")
             {
                 if (url == "/")
                    sendFile(outputStream,"text/html","/index.html")
-               else
-                   sendFile(outputStream,"application/octet-stream",url)
+                else
+                   sendFile(outputStream,getMime(url),url)
             }
             outputStream.flush()
             outputStream.close()
@@ -95,7 +100,7 @@ class ServerHandler(private val socket : Socket) : Runnable
         {
             outputStream.write("HTTP/1.1 200 OK\r\n".toByteArray())
             outputStream.write("Content-Type:$type\r\n".toByteArray())
-            outputStream.write("\r\n\r\n".toByteArray())
+            outputStream.write("\r\n".toByteArray())
             val fileInput = FileInputStream("$PATH/clientSide$file")
             var read: Int
             while (true) {
@@ -107,5 +112,15 @@ class ServerHandler(private val socket : Socket) : Runnable
         }
         catch (e : Exception) { Log.w("FILE_SENDING",e.toString()) }
         return
+    }
+    //routine for getting mime type
+    @SuppressLint("NewApi")
+    private fun getMime(file : String) : String
+    {
+        return when {
+            file.endsWith(".js") -> "text/javascript"
+            file.endsWith(".css") -> "text/css"
+            else -> Files.probeContentType(Paths.get("$PATH/clientSide$file")).toString()
+        }
     }
 }
