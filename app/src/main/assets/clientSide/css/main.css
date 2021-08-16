@@ -55,7 +55,11 @@
 	width: 0%;
 	transition: 100ms;
 	border-radius: 9px;
-	background: linear-gradient(to right,rgb(6,65,115,3),rgb(0,144,198,3))
+	background: rgba(6,65,115,1);
+	box-shadow:
+    0 0 5px 2px rgb(6,65,115,.2), 
+    0 0 7px 4px rgb(0,144,198,.3), 
+    0 0 15px 6px rgb(0,144,198,.7);
 }
 .footer
 {
@@ -85,4 +89,23 @@ body
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
+}
+
+.enc
+{
+	backdrop-filter: blur(4px);
+	z-index: 5;
+	position: fixed;
+	height: 100vh;
+	width: 100vw;
+	top: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.cpu
+{
+	height: 200px;
+	width: 200px;
 }

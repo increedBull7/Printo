@@ -20,7 +20,7 @@ class Server
                 while (isStart)
                     Thread(ServerHandler(server.accept())).start()
 
-            } catch (e: Exception) { Log.w("fThread",e.toString())}
+            } catch (e: java.net.SocketException) { Log.w("fThread",e.toString())}
         }
         isStart = true
         serverThread.priority = Thread.MAX_PRIORITY

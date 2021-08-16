@@ -16,19 +16,24 @@ class ServerHandler(private val socket : Socket) : Runnable
 {
     private  var PATH :String = ServerActivity.getIns().PATH
     private  var PATH_FOR_DATA = ServerActivity.getIns().PATH_FOR_DATA
+    private lateinit var inputStream: InputStream
+    private lateinit var outputStream: OutputStream
+    private lateinit var bReader : BufferedReader
+    private lateinit var sb : java.lang.StringBuilder
+    private lateinit var tmp : String
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun run() {
+    override fun run()
+    {
         try {
             //getting input/output stream from socket and buffer it
-            val inputStream = socket.getInputStream()
-            val outputStream = socket.getOutputStream()
-            val bReader = BufferedReader(InputStreamReader(inputStream))
-            val sb = StringBuilder()
-            var tmp: String
+            inputStream = socket.getInputStream()
+            bReader = BufferedReader(InputStreamReader(inputStream))
+            sb = StringBuilder()
 
             //code for reading http request header
-            while (true) {
+            while (true)
+            {
                 tmp = bReader.readLine()
                 if (tmp.isEmpty())
                     break
@@ -44,11 +49,16 @@ class ServerHandler(private val socket : Socket) : Runnable
             //server code for responding to POST request
             if (method == "POST")
             {
-                val size = req[3].split(" ")[1].toInt()
+                val size = if(req[2].split(" ")[1].startsWith("Mozilla",true)) {
+                    req[6].split(" ")[1].toInt()
+                } else {
+                    req[3].split(" ")[1].toInt()
+                }
+
                 val file = File("$PATH_FOR_DATA/Printo$url")
                 val fileOutput = FileOutputStream1(file)
                 var i = 0
-                val chunk = 1024*1024
+                val chunk = 1024*1024*5
                 var buffer : ByteArray
                 lateinit var data : ByteArray
                 //receiving and decoding base 64 data sent by browser
@@ -74,41 +84,43 @@ class ServerHandler(private val socket : Socket) : Runnable
                 }
                 fileOutput.flush()
                 fileOutput.close()
-
+                bReader.close()
             }
 
             //code for server response to GET http method
             else if(method == "GET")
             {
                 if (url == "/")
-                   sendFile(outputStream,"text/html","/index.html")
+                   sendFile("text/html","/index.html")
                 else
-                   sendFile(outputStream,getMime(url),url)
+                   sendFile(getMime(url),url)
             }
-            outputStream.flush()
-            outputStream.close()
-            inputStream.close()
-            socket.close()
         }
         catch (e : Exception) { Log.w("REST",e.toString()) }
     }
 
     //routine for sending file over http
-    private fun sendFile(outputStream: OutputStream,type : String,file : String)
+    private fun sendFile(type : String,file : String)
     {
         try
         {
+            outputStream = socket.getOutputStream()
             outputStream.write("HTTP/1.1 200 OK\r\n".toByteArray())
             outputStream.write("Content-Type:$type\r\n".toByteArray())
             outputStream.write("\r\n".toByteArray())
             val fileInput = FileInputStream("$PATH/clientSide$file")
+            val bfin = BufferedInputStream(fileInput)
             var read: Int
+            val buf  =  ByteArray(1024)
             while (true) {
-                read = fileInput.read()
+                read = bfin.read(buf)
                 if (read == -1)
                     break
-                outputStream.write(read)
+                outputStream.write(buf,0,read)
             }
+            bfin.close()
+            fileInput.close()
+            outputStream.close()
         }
         catch (e : Exception) { Log.w("FILE_SENDING",e.toString()) }
         return
