@@ -1,12 +1,12 @@
 class FileUpload
 {
 	//construtor for class
-	constructor(filename,pObj,url,)
+	constructor(filename,pObj,url,audio)
 	{
 		this.pObj = pObj
+		this.audio = audio
 		this.url = url
 		this.read(filename)
-		this.audio = new Audio("audio/sent_a.wav")
 	}
 
 	//routine for reading file and converting to base64

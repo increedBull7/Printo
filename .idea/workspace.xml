@@ -5,6 +5,9 @@
       <config />
     </shared>
   </component>
+  <component name="AndroidLogFilters">
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
+  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="NONE" />
   </component>
@@ -20,17 +23,32 @@
       <change beforePath="$PROJECT_DIR$/.gradle/7.0.2/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.0.2/javaCompile/javaCompile.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.0.2/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.0.2/javaCompile/taskHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/server_screen.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/server_screen.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/local.properties" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/assets/clientSide/css/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/assets/clientSide/css/main.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/assets/clientSide/favicon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/assets/clientSide/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/assets/clientSide/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/assets/clientSide/js/file_upload.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/assets/clientSide/js/file_upload.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/assets/clientSide/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/assets/clientSide/js/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/assets/clientSide/main.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/assets/clientSide/main.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/printo/Server.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/printo/Server.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/printo/ServerHandler.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/printo/ServerHandler.kt" afterDir="false" />
+>>>>>>> d962eb1512e03508867d30b03c5beca7abcfdecc
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[J5AAB761P1912K8]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -75,6 +93,12 @@
     <option name="BUILD_TARGET_KEY" value="apk" />
   </component>
   <component name="Git.Settings">
+    <option name="PUSH_TAGS">
+      <GitPushTagMode>
+        <option name="argument" value="--tags" />
+        <option name="title" value="All" />
+      </GitPushTagMode>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitSEFilterConfiguration">
