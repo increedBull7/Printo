@@ -1,13 +1,17 @@
 package com.example.printo
 
 import android.annotation.SuppressLint
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.BarcodeEncoder
 import java.io.FileOutputStream
@@ -27,7 +31,6 @@ class ServerActivity : AppCompatActivity()
 
     lateinit var PATH : String
     lateinit var PATH_FOR_DATA : String
-
         companion object
         {
             @JvmStatic
@@ -53,6 +56,9 @@ class ServerActivity : AppCompatActivity()
         serverInt = Intent(this,ServerService::class.java)
         startService(serverInt)
         qrCode()
+        LocalBroadcastManager.getInstance(this).registerReceiver(mRecEve,
+            IntentFilter("file_event")
+        )
         }
 
     //routine for generating qr code
@@ -64,7 +70,7 @@ class ServerActivity : AppCompatActivity()
             textMsg.text = "OR visit : http://${getIp()}:5050 on your browser!"
             try {
                 //place your text here @ text
-                val text = getIp()
+                val text = "http://"+getIp()+"8080"
                 val qrCode  = BarcodeEncoder()
                 val imgCode = qrCode.encodeBitmap(text, BarcodeFormat.QR_CODE,
                     500, 500)
@@ -191,4 +197,23 @@ class ServerActivity : AppCompatActivity()
         super.onBackPressed()
         stopService(serverInt)
     }
+
+    private val mRecEve : BroadcastReceiver = object : BroadcastReceiver()
+    {
+        @SuppressLint("ResourceType", "WrongViewCast")
+        override fun onReceive(context : Context?, recIntent : Intent?)
+        {
+            val massage = recIntent?.getStringExtra("com")
+            if(massage != null)
+            {
+                Toast.makeText(getIns(), "$massage received", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mRecEve)
+    }
 }
+
