@@ -1,8 +1,10 @@
 package com.example.printo
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import java.io.*
 import java.net.*
 import java.nio.file.Files
@@ -44,12 +46,13 @@ class ServerHandler(private val socket : Socket) : Runnable
             val req = httpMsg.split("\r\n")
             val firstline = req[0].split(" ")
             val method = firstline[0]
-            val url = firstline[1]
+            val url = firstline[1].replace("%20"," ")
 
             //server code for responding to POST request
             if (method == "POST")
             {
-                val size = if(req[2].split(" ")[1].startsWith("Mozilla",true)) {
+                val size = if(req[2].split(" ")[1].startsWith("Mozilla",true))
+                {
                     req[6].split(" ")[1].toInt()
                 } else {
                     req[3].split(" ")[1].toInt()
@@ -84,6 +87,7 @@ class ServerHandler(private val socket : Socket) : Runnable
                 }
                 fileOutput.flush()
                 fileOutput.close()
+                sendMassage("com",url)
                 bReader.close()
             }
 
@@ -134,5 +138,11 @@ class ServerHandler(private val socket : Socket) : Runnable
             file.endsWith(".css") -> "text/css"
             else -> Files.probeContentType(Paths.get("$PATH/clientSide$file")).toString()
         }
+    }
+    private fun sendMassage(key : String, msg : String)
+    {
+        val intent = Intent("file_event")
+        intent.putExtra(key,msg)
+        LocalBroadcastManager.getInstance(ServerActivity.getIns()).sendBroadcast(intent)
     }
 }

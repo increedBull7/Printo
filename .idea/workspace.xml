@@ -6,6 +6,7 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
+    <option name="TOOL_WINDOW_LOG_LEVEL" value="verbose" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="AutoImportSettings">
@@ -24,6 +25,9 @@
       <change beforePath="$PROJECT_DIR$/.gradle/7.0.2/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.0.2/javaCompile/taskHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
 <<<<<<< HEAD
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+=======
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/server_screen.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/server_screen.xml" afterDir="false" />
@@ -31,17 +35,15 @@
 =======
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+>>>>>>> 37d3c931c8f84453609761d12c13aea39ea53017
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/assets/clientSide/css/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/assets/clientSide/css/main.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/assets/clientSide/favicon.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/assets/clientSide/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/assets/clientSide/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/assets/clientSide/js/file_upload.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/assets/clientSide/js/file_upload.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/assets/clientSide/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/assets/clientSide/js/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/assets/clientSide/main.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/assets/clientSide/main.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/printo/Server.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/printo/Server.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/printo/ServerActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/printo/ServerActivity.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/printo/ServerHandler.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/printo/ServerHandler.kt" afterDir="false" />
+<<<<<<< HEAD
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/server_screen.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/server_screen.xml" afterDir="false" />
+=======
 >>>>>>> d962eb1512e03508867d30b03c5beca7abcfdecc
+>>>>>>> 37d3c931c8f84453609761d12c13aea39ea53017
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
