@@ -70,7 +70,7 @@ class ServerActivity : AppCompatActivity()
             textMsg.text = "OR visit : http://${getIp()}:5050 on your browser!"
             try {
                 //place your text here @ text
-                val text = "http://"+getIp()+"8080"
+                val text = "http://"+getIp()+":5050"
                 val qrCode  = BarcodeEncoder()
                 val imgCode = qrCode.encodeBitmap(text, BarcodeFormat.QR_CODE,
                     500, 500)
