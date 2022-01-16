@@ -31,20 +31,19 @@ class ServerActivity : AppCompatActivity()
 
     lateinit var PATH : String
     lateinit var PATH_FOR_DATA : String
-        companion object
+    companion object
+    {
+        @JvmStatic
+        lateinit var ins : ServerActivity
+        @JvmName("getIns1")
+        fun getIns() : ServerActivity
         {
-            @JvmStatic
-            lateinit var ins : ServerActivity
-            @JvmName("getIns1")
-            fun getIns() : ServerActivity
-            {
-                return ins
-            }
+            return ins
         }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?)
-        {
-
+    {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.server_screen)
         textMsg = findViewById(R.id.textView)
@@ -59,17 +58,18 @@ class ServerActivity : AppCompatActivity()
         LocalBroadcastManager.getInstance(this).registerReceiver(mRecEve,
             IntentFilter("file_event")
         )
-        }
+    }
 
     //routine for generating qr code
     @SuppressLint("SetTextI18n")
     private fun qrCode()
+    {
+        //this is qr code
+        qrCodeImage = findViewById(R.id.imgbarcode)
+        textMsg.text = "OR visit : http://${getIp()}:5050 on your browser!"
+        try
         {
-            //this is qr code
-            qrCodeImage = findViewById(R.id.imgbarcode)
-            textMsg.text = "OR visit : http://${getIp()}:5050 on your browser!"
-            try {
-                //place your text here @ text
+            //place your text here @ text
                 val text = "http://"+getIp()+"8080"
                 val qrCode  = BarcodeEncoder()
                 val imgCode = qrCode.encodeBitmap(text, BarcodeFormat.QR_CODE,
@@ -81,7 +81,7 @@ class ServerActivity : AppCompatActivity()
             } catch (e: Exception){
                 e.printStackTrace()
             }
-        }
+    }
     //extract resource
     private fun extractR()
     {
@@ -94,6 +94,7 @@ class ServerActivity : AppCompatActivity()
             writeResource("clientSide/js")
         }catch (e : java.lang.Exception) { }
     }
+
     //routine for writing assets to local folder
     private fun writeResource(path: String)
     {
@@ -102,11 +103,8 @@ class ServerActivity : AppCompatActivity()
         try
         {
             assetsList = assetManager.list(path) as Array<String>
-
             if(assetsList.isEmpty())
-            {
                 Toast.makeText(this,"empty", Toast.LENGTH_SHORT).show()
-            }
             else
             {
                 val filepath = "$PATH/$path"
@@ -120,7 +118,6 @@ class ServerActivity : AppCompatActivity()
                         ""
                     else
                         "$path/"
-
                     if(!path.startsWith("images") && !path.startsWith("sounds") && !path.startsWith("webkit"))
                         copy(p + item)
                 }
@@ -170,11 +167,14 @@ class ServerActivity : AppCompatActivity()
     }
 
     //getting AP ip address
-    private fun getIp() : String {
+    private fun getIp() : String
+    {
         var ip = ""
-        try {
+        try
+        {
             val enumNet = NetworkInterface.getNetworkInterfaces()
-            while (enumNet.hasMoreElements()) {
+            while (enumNet.hasMoreElements())
+            {
                 val networkInterface = enumNet.nextElement()
                 val enumInet = networkInterface.inetAddresses
                 while (enumInet.hasMoreElements())
@@ -211,7 +211,8 @@ class ServerActivity : AppCompatActivity()
         }
     }
 
-    override fun onDestroy() {
+    override fun onDestroy()
+    {
         super.onDestroy()
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mRecEve)
     }

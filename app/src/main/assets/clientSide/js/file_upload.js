@@ -1,6 +1,5 @@
 class FileUpload
 {
-	//construtor for class
 	constructor(filename,pObj,url,audio)
 	{
 		this.pObj = pObj
@@ -16,14 +15,9 @@ class FileUpload
 		let reader = new FileReader()
 		reader.addEventListener("load",event=>
 		{
-
-			// remove base64 encoding's metadata
-			let base64 = reader.result.replace(/^data:.+;base64,/, '');
-			this.upload(base64)
+			this.upload(event.target.result)
 		})
-
-		//read data in urlencoding(base64)
-		reader.readAsDataURL(filename)
+		reader.readAsArrayBuffer(filename)
 	}
 
 	upload(data)
@@ -51,7 +45,7 @@ class FileUpload
     	})
 
 		//sending data to server
-		xhr.send(new Blob([data]))
+		xhr.send(data)
 	}
 }
 

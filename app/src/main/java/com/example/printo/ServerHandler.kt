@@ -9,10 +9,7 @@ import java.io.*
 import java.net.*
 import java.nio.file.Files
 import java.nio.file.Paths
-import java.util.*
-import kotlin.math.abs
 import java.io.FileOutputStream as FileOutputStream1
-
 
 class ServerHandler(private val socket : Socket) : Runnable
 {
@@ -20,33 +17,31 @@ class ServerHandler(private val socket : Socket) : Runnable
     private  var PATH_FOR_DATA = ServerActivity.getIns().PATH_FOR_DATA
     private lateinit var inputStream: InputStream
     private lateinit var outputStream: OutputStream
-    private lateinit var bReader : BufferedReader
     private lateinit var sb : java.lang.StringBuilder
-    private lateinit var tmp : String
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun run()
     {
-        try {
-            //getting input/output stream from socket and buffer it
+        try
+        {
             inputStream = socket.getInputStream()
-            bReader = BufferedReader(InputStreamReader(inputStream))
             sb = StringBuilder()
 
-            //code for reading http request header
+            //http msg
             while (true)
             {
-                tmp = bReader.readLine()
-                if (tmp.isEmpty())
+                if(sb.toString().endsWith("\r\n\r\n"))
                     break
-                sb.append(tmp + "\r\n")
+                val read = inputStream.read()
+                sb.append(read.toChar())
             }
+
             //getting method and url form http msg
             val httpMsg: String = sb.toString()
             val req = httpMsg.split("\r\n")
-            val firstline = req[0].split(" ")
-            val method = firstline[0]
-            val url = firstline[1].replace("%20"," ")
+            val firstLine = req[0].split(" ")
+            val method = firstLine[0]
+            val url = firstLine[1].replace("%20"," ")
 
             //server code for responding to POST request
             if (method == "POST")
@@ -60,35 +55,21 @@ class ServerHandler(private val socket : Socket) : Runnable
 
                 val file = File("$PATH_FOR_DATA/Printo$url")
                 val fileOutput = FileOutputStream1(file)
-                var i = 0
+                var count = 0
                 val chunk = 1024*1024*5
-                var buffer : ByteArray
-                lateinit var data : ByteArray
-                //receiving and decoding base 64 data sent by browser
+                val buffer = ByteArray(chunk)
+                //no more base 64
                 while(true)
                 {
-                    if(i==size)
+                    if(count == size)
                         break
-
-                    var j = 0
-                    val resize = size - i
-                    buffer = if(resize > chunk) ByteArray(chunk) else ByteArray(abs(resize))
-                    while(true)
-                    {
-                        if (j == buffer.size)
-                            break
-
-                        buffer[j] = bReader.read().toByte()
-                        j++
-                        i++
-                    }
-                    data = Base64.getDecoder().decode(buffer)
-                    fileOutput.write(data,0,data.size)
+                    val read = inputStream.read(buffer,0,buffer.size)
+                    fileOutput.write(buffer,0,read)
+                    count += read
                 }
                 fileOutput.flush()
                 fileOutput.close()
                 sendMassage("com",url)
-                bReader.close()
             }
 
             //code for server response to GET http method
@@ -100,7 +81,14 @@ class ServerHandler(private val socket : Socket) : Runnable
                    sendFile(getMime(url),url)
             }
         }
-        catch (e : Exception) { Log.w("REST",e.toString()) }
+        catch (e : Exception)
+        {
+            Log.w("REST",e.toString())
+        }
+        finally
+        {
+            socket.close()
+        }
     }
 
     //routine for sending file over http
@@ -113,32 +101,37 @@ class ServerHandler(private val socket : Socket) : Runnable
             outputStream.write("Content-Type:$type\r\n".toByteArray())
             outputStream.write("\r\n".toByteArray())
             val fileInput = FileInputStream("$PATH/clientSide$file")
-            val bfin = BufferedInputStream(fileInput)
+            val bufferedInputStream = BufferedInputStream(fileInput)
             var read: Int
             val buf  =  ByteArray(1024)
-            while (true) {
-                read = bfin.read(buf)
+            while (true)
+            {
+                read = bufferedInputStream.read(buf)
                 if (read == -1)
                     break
                 outputStream.write(buf,0,read)
             }
-            bfin.close()
+            bufferedInputStream.close()
             fileInput.close()
-            outputStream.close()
         }
-        catch (e : Exception) { Log.w("FILE_SENDING",e.toString()) }
-        return
+        catch (e : Exception)
+        {
+            Log.w("FILE_SENDING",e.toString())
+        }
     }
+
     //routine for getting mime type
     @SuppressLint("NewApi")
     private fun getMime(file : String) : String
     {
-        return when {
+        return when
+        {
             file.endsWith(".js") -> "text/javascript"
             file.endsWith(".css") -> "text/css"
             else -> Files.probeContentType(Paths.get("$PATH/clientSide$file")).toString()
         }
     }
+
     private fun sendMassage(key : String, msg : String)
     {
         val intent = Intent("file_event")

@@ -29,10 +29,10 @@ import androidx.fragment.app.DialogFragment
 
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var serverButton : Button
-    private lateinit var switch : SwitchCompat
+    private lateinit var serverButton: Button
+    private lateinit var switch: SwitchCompat
     private val WRITE = 101
-    private val READ = 100
+    private val READ = 101
 
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,20 +51,14 @@ class MainActivity : AppCompatActivity() {
         serverButton.setOnClickListener()
         {
             //for android android 11 or above
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
-            {
-                if(Environment.isExternalStorageManager())
-                {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                if (Environment.isExternalStorageManager()) {
                     val intent = Intent(this, ServerActivity::class.java)
                     startActivity(intent)
+                } else {
+                    DialogAl().show(supportFragmentManager, DialogAl.TAG)
                 }
-                else
-                {
-                    DialogAl().show(supportFragmentManager,DialogAl.TAG)
-                }
-            }
-            else
-            {
+            } else {
                 val read = checkPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE, READ)
                 val write =
                     checkPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, WRITE)
@@ -78,23 +72,22 @@ class MainActivity : AppCompatActivity() {
 
 
     //code related to above onClick
-    private fun checkPermission(permission:String ,requestCode:Int) :Boolean
-    {
-        return if(ContextCompat.checkSelfPermission(this@MainActivity, permission)==PackageManager.PERMISSION_DENIED)
-        {
-            ActivityCompat.requestPermissions(this@MainActivity, arrayOf(permission),requestCode)
+    private fun checkPermission(permission: String, requestCode: Int): Boolean {
+        return if (ContextCompat.checkSelfPermission(
+                this@MainActivity,
+                permission
+            ) == PackageManager.PERMISSION_DENIED
+        ) {
+            ActivityCompat.requestPermissions(this@MainActivity, arrayOf(permission), requestCode)
             false
-        }
-        else
-        {
+        } else {
             true
         }
 
     }
 
     //this opens up the tethering settings
-    private fun openHotspotSetting()
-    {
+    private fun openHotspotSetting() {
         val intent = Intent(Intent.ACTION_MAIN, null)
         intent.addCategory(Intent.CATEGORY_LAUNCHER)
         val cn = ComponentName(
@@ -107,67 +100,60 @@ class MainActivity : AppCompatActivity() {
     }
 
     //code to be execute when permission denied
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray)
-    {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if(requestCode == READ )
-        {
-            if(grantResults.isNotEmpty()&& grantResults[0] == PackageManager.PERMISSION_DENIED)
-            {
-                Toast.makeText(this@MainActivity,"permission not granted", Toast.LENGTH_SHORT).show()
+        if (requestCode == READ) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_DENIED) {
+                Toast.makeText(this@MainActivity, "permission not granted", Toast.LENGTH_SHORT)
+                    .show()
             }
-        }
-        else if(requestCode == WRITE)
-        {
-            if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_DENIED)
-            {
-                Toast.makeText(this@MainActivity,"permission not granted",Toast.LENGTH_SHORT).show()
+        } else if (requestCode == WRITE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_DENIED) {
+                Toast.makeText(this@MainActivity, "permission not granted", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
     }
+
     //register broadcast receiver when activity started
-    override fun onStart()
-    {
+    override fun onStart() {
         super.onStart()
         val iFilter = IntentFilter("android.net.wifi.WIFI_AP_STATE_CHANGED")
-        registerReceiver(mRec,iFilter)
+        registerReceiver(mRec, iFilter)
     }
 
     //unregister broadcast receiver when activity no longer running
-    override fun onStop()
-    {
+    override fun onStop() {
         super.onStop()
         unregisterReceiver(mRec)
     }
 
     //routine code for coordinating with btn and wifi event
-    private val mRec : BroadcastReceiver = object : BroadcastReceiver()
-        {
-            override fun onReceive(context : Context?, intent : Intent?)
-            {
-                val ac = intent?.action as String
-                if("android.net.wifi.WIFI_AP_STATE_CHANGED" == ac)
-                {
-                    val state = intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE,0)
-                    if(state == 13)
-                    {
-                        switch.isChecked = true
-                        serverButton.isEnabled = true
-                    }
-                    else
-                    {
-                        switch.isChecked = false
-                        serverButton.isEnabled = false
-                    }
+    private val mRec: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            val ac = intent?.action as String
+            if ("android.net.wifi.WIFI_AP_STATE_CHANGED" == ac) {
+                val state = intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE, 0)
+                if (state == 13) {
+                    switch.isChecked = true
+                    serverButton.isEnabled = true
+                } else {
+                    switch.isChecked = false
+                    serverButton.isEnabled = false
                 }
             }
         }
+    }
 
 }
+
 //dialog for android 11 notice
-class DialogAl : DialogFragment()
-{
-    private lateinit var btn : Button
+class DialogAl : DialogFragment() {
+    private lateinit var btn: Button
 
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreateView(
@@ -175,19 +161,17 @@ class DialogAl : DialogFragment()
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val root = inflater.inflate(R.layout.dialog,container,false)
+        val root = inflater.inflate(R.layout.dialog, container, false)
         btn = root.findViewById(R.id.button2)
         btn.setOnClickListener()
         {
-            try
-            {
+            try {
                 val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
                 intent.addCategory("android.intent.category.DEFAULT")
-                intent.data = Uri.parse(String.format("package:%s")+MainActivity().applicationContext.packageName.toString())
+                intent.data =
+                    Uri.parse(String.format("package:%s") + MainActivity().applicationContext.packageName.toString())
                 startActivity(intent)
-            }
-            catch (e : Exception)
-            {
+            } catch (e: Exception) {
                 val intent = Intent()
                 intent.action = Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION
                 startActivity(intent)
@@ -195,13 +179,13 @@ class DialogAl : DialogFragment()
         }
         return root
     }
-    override fun onStart()
-    {
+
+    override fun onStart() {
         super.onStart()
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
     }
-    companion object
-    {
+
+    companion object {
         const val TAG = "DialogAl"
     }
 }
